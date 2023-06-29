@@ -1,0 +1,133 @@
+<div class="breadcrumb-main-container" #breadcrumb>
+  <!-- Breadcrumb Container -->
+  <div
+    class="breadcrumb-container"
+    [ngClass]="{ 'show-more': isMissingBreadcrumbs }"
+  >
+    <mat-icon
+      class="bradcrumb-expand-arrows"
+      *ngIf="isMissingBreadcrumbs"
+      (click)="togglePopover()"
+    >
+      {{ 'keyboard_double_arrow_left' }}
+    </mat-icon>
+    <ng-container
+      *ngFor="
+        let breadcrumb of displayedBreadcrumbs;
+        let last = last;
+        let isFirst = first;
+        let i = index
+      "
+    >
+      <!-- Breadcrumb Item -->
+      <div
+        [ngClass]="{
+          'breadcrumb-parent': !last,
+          'first-breadcrumb-item': isFirst,
+          'breadcrumb-child': last
+        }"
+      >
+        <div
+          class="popover-icon"
+          *ngIf="!isFirst"
+          (click)="toggleDropdown('parent', i)"
+        >
+          <mat-icon *ngIf="!breadcrumb.isParentDropdownOpen" class="icon-next">
+            {{ 'chevron_right' }}
+          </mat-icon>
+          <mat-icon
+            *ngIf="breadcrumb.isParentDropdownOpen"
+            class="icon-dropdown"
+          >
+            {{ 'expand_more' }}
+          </mat-icon>
+        </div>
+        <span
+          *ngIf="breadcrumb.url"
+          [ngClass]="{ selected: breadcrumb.isParentSelected }"
+        >
+          {{ breadcrumb.label }}
+          <!-- Child Breadcrumb Dropdown -->
+          <div
+            class="popover-dropdown"
+            *ngIf="breadcrumb.isParentDropdownOpen && !isFirst"
+          >
+            <div
+              *ngFor="let children of breadcrumb.children"
+              [ngClass]="{ selected: children.label == breadcrumb.label }"
+            >
+              {{ children.label }}
+            </div>
+          </div>
+        </span>
+        <span
+          *ngIf="!breadcrumb.url"
+          [ngClass]="{ selected: breadcrumb.isParentSelected }"
+        >
+          {{ breadcrumb.label }}
+          <!-- Child Breadcrumb Dropdown -->
+          <div
+            class="popover-dropdown"
+            *ngIf="breadcrumb.isParentDropdownOpen && !isFirst"
+          >
+            <div
+              *ngFor="let children of breadcrumb.children"
+              [ngClass]="{ selected: children.label == breadcrumb.label }"
+            >
+              {{ children.label }}
+            </div>
+          </div>
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <!-- Breadcrumb Popover -->
+  <div class="breadcrumb-popover" *ngIf="this.isPopoverOpen">
+    <ol class="breadcrumb">
+      <li
+        *ngFor="
+          let breadcrumb of localBreadcrumbs;
+          let last = last;
+          let isFirst = first;
+          let i = index
+        "
+      >
+        <ng-container *ngIf="i < localBreadcrumbs.length - maxCrumbs + 1">
+          <div
+            class="popover-icon"
+            *ngIf="!isFirst"
+            (click)="toggleDropdown('child', i)"
+          >
+            <mat-icon
+              *ngIf="!breadcrumb.isParentDropdownOpen"
+              class="icon-next"
+            >
+              {{ 'chevron_right' }}
+            </mat-icon>
+            <mat-icon
+              *ngIf="breadcrumb.isParentDropdownOpen"
+              class="icon-dropdown"
+            >
+              {{ 'expand_more' }}
+            </mat-icon>
+          </div>
+          <span [ngClass]="{ selected: breadcrumb.isChildSelected }">
+            {{ breadcrumb.label }}
+            <!-- Child Breadcrumb Dropdown -->
+            <div
+              class="popover-dropdown"
+              *ngIf="breadcrumb.isChildDropdownOpen"
+            >
+              <div
+                *ngFor="let children of breadcrumb.children"
+                [ngClass]="{ selected: children.label == breadcrumb.label }"
+              >
+                {{ children.label }}
+              </div>
+            </div>
+          </span>
+        </ng-container>
+      </li>
+    </ol>
+  </div>
+</div>

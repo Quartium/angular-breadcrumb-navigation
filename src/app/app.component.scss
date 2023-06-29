@@ -1,0 +1,199 @@
+:host {
+  --breadcrumb-background: #fff;
+  --breadcrumb-border: #d3dde3;
+  --breadcrumb-text-color: #6d98bb;
+  --breadcrumb-selected-background: #6d98bb;
+  --breadcrumb-selected-text-color: #fff;
+  --breadcrumb-popover-background: var(--breadcrumb-background);
+  --breadcrumb-popover-border: var(--breadcrumb-border);
+  --breadcrumb-popover-arrow: #d3dde3;
+  --breadcrumb-popover-arrow-inner: var(--breadcrumb-background);
+  --breadcrumb-dropdown-background: var(--breadcrumb-background);
+  --breadcrumb-dropdown-border: #c2c9d9;
+  --breadcrumb-dropdown-shadow: #00000029;
+}
+
+.breadcrumb-main-container {
+  position: relative;
+  display: flex;
+}
+
+.breadcrumb-popover {
+  position: absolute;
+  left: 7px;
+  top: 28px;
+  border: 1px solid var(--breadcrumb-popover-border);
+  background: var(--breadcrumb-popover-background);
+  border-radius: 0.3rem;
+  padding: 5px 15px;
+  z-index: 9;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--breadcrumb-popover-arrow);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: -6px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--breadcrumb-popover-arrow-inner);
+  }
+}
+
+.breadcrumb-parent,
+.breadcrumb-child {
+  .popover-dropdown {
+    position: fixed;
+    left: unset;
+    transform: translateX(-15px);
+  }
+}
+
+.popover-dropdown {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 7px;
+  white-space: nowrap;
+  box-shadow: 0px 3px 6px var(--breadcrumb-dropdown-shadow);
+  border: 1px solid var(--breadcrumb-dropdown-border);
+  border-radius: 3px;
+  background: var(--breadcrumb-dropdown-background);
+  z-index: 10;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 85px);
+
+  > div {
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &.selected {
+      background: var(--breadcrumb-selected-background);
+      color: var(--breadcrumb-selected-text-color);
+    }
+  }
+}
+
+.popover-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.first-breadcrumb-item.breadcrumb-parent {
+  padding-left: 0;
+}
+
+.breadcrumb-parent > span,
+.breadcrumb-child > span {
+  white-space: nowrap;
+}
+
+.breadcrumb-parent > span.selected,
+.breadcrumb-child > span.selected,
+.breadcrumb li > span.selected {
+  background: var(--breadcrumb-selected-background);
+  color: var(--breadcrumb-selected-text-color);
+}
+
+.breadcrumb-container {
+  height: 28px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  gap: 4px;
+
+  &.show-more {
+    > div:nth-child(2) .popover-icon {
+      display: none;
+    }
+  }
+}
+
+.breadcrumb-parent,
+.breadcrumb-child {
+  display: flex;
+  align-items: center;
+  color: var(--breadcrumb-text-color);
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+}
+
+.breadcrumb-child {
+  gap: 4px;
+  color: #828080;
+}
+
+.first-breadcrumb-item:first-child {
+  margin-left: 11px;
+}
+
+.bradcrumb-expand-arrows {
+  color: var(--breadcrumb-text-color);
+  cursor: pointer;
+  margin-left: 11px;
+}
+
+.breadcrumb-buttons-container {
+  margin: 6px 11px 0 0;
+
+  .button-secondary {
+    margin-top: -2px;
+
+    &:not(:last-child) {
+      margin-right: 6px;
+    }
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  font-size: 0.8em;
+  margin: 0;
+  max-width: 910px;
+  width: 100%;
+  padding: 0;
+  word-break: break-word;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--breadcrumb-text-color);
+    list-style: none;
+    padding: 2px 0;
+    position: relative;
+
+    &:last-child {
+      color: #828080;
+    }
+
+    span {
+      cursor: pointer;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+      white-space: nowrap;
+    }
+  }
+}
